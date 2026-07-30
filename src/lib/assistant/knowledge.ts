@@ -1,6 +1,7 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import type { DepartmentId, KnowledgeDocument } from "@/lib/api/types";
+import seedCorpus from "./seed-corpus.json";
 
 export interface Chunk {
   id: string;
@@ -30,7 +31,43 @@ async function load(): Promise<StoreShape> {
   } catch {
     cache = { docs: [], chunks: [] };
   }
+  seedBuiltIns(cache);
   return cache;
+}
+
+/** Official VIT Bhopal PDFs that must always be present in the knowledge base. */
+function seedBuiltIns(store: StoreShape) {
+  for (const seed of seedCorpus as {
+    name: string;
+    file: string;
+    department: DepartmentId;
+    text: string;
+  }[]) {
+    const id = `seed-${seed.file.replace(/[^a-zA-Z0-9]+/g, "-").toLowerCase()}`;
+    if (store.docs.some((d) => d.id === id)) continue;
+    const pieces = chunkText(seed.text);
+    store.docs.push({
+      id,
+      name: seed.name,
+      department: seed.department,
+      sizeKb: Math.max(1, Math.round(seed.text.length / 1024)),
+      chunks: pieces.length,
+      status: pieces.length ? "indexed" : "failed",
+      uploadedAt: new Date().toISOString(),
+      version: "official",
+    });
+    store.chunks.push(
+      ...pieces.map((t, i) => ({
+        id: `${id}-c${i}`,
+        docId: id,
+        docName: seed.name,
+        department: seed.department,
+        version: "official",
+        index: i,
+        text: t,
+      })),
+    );
+  }
 }
 
 async function persist() {
