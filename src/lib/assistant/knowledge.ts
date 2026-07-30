@@ -148,6 +148,7 @@ export async function listDocuments(): Promise<KnowledgeDocument[]> {
 
 export async function removeDocument(id: string) {
   const store = await load();
+  if (id.startsWith("seed-")) return; // official documents are permanent
   store.docs = store.docs.filter((d) => d.id !== id);
   store.chunks = store.chunks.filter((c) => c.docId !== id);
   await persist();
