@@ -1,4 +1,4 @@
-# Env files
+# Env files these are most important 
 .env
 .env.local
 .env.*.local
