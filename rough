@@ -1,1 +1,12 @@
-this is progress file and it has rough architecture of our project 
+# Internal Notes
+
+- Refactor API service layer
+- Review authentication middleware
+- Improve caching strategy
+- Cleanup unused components
+- Verify production environment variables
+- Add loading states for async requests
+- Update documentation before release
+
+Status: In Progress
+Owner: Development Team
