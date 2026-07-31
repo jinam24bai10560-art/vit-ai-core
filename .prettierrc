@@ -4,3 +4,11 @@
   "singleQuote": false,
   "trailingComma": "all"
 }
+
+
+
+# Generated files
+#routeTree.gen.ts
+
+# Logs
+#*#.log
