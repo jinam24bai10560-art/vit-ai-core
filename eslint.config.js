@@ -38,3 +38,13 @@ export default tseslint.config(
   },
   eslintPluginPrettier,
 );
+
+
+#ignores: [
+#  "dist",
+#  ".output",
+#  ".vinxi",
+#  "coverage",
+ # "build",
+ # "node_modules",
+#],
