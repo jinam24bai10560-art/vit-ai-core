@@ -6,3 +6,11 @@ pnpm-lock.yaml
 package-lock.json
 bun.lock
 routeTree.gen.ts
+
+
+
+# Build output
+#dist/
+#build/
+#.output/
+#.vinxi/
